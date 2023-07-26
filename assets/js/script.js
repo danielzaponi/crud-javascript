@@ -19,7 +19,7 @@ function addToTable() {
     row.id = tableSize; //Adicionando o id no elemento a ser criado
 
     //Criando o codigo do botão para remover a linha
-    let btnCode = "<button class='btn btn-danger btn-block remove-btn' onclick='removeToTable(this)'><i class='fa-solid fa-trash'></i></button>";
+    let btnCode = "<button class='btn btn-danger btn-block remove-btn' onclick='showModal(this)(this)'><i class='fa-solid fa-trash'></i></button>";
 
     //Preenchendo as celulas da linha
     cell1.innerHTML = tableSize;
@@ -47,5 +47,31 @@ function removeToTable(id){
     row.parentNode.removeChild(row); //Removendo a linha
 
     //Retornando 'false' para impedir o reload da pagina
+    return false;
+}
+
+function showModal(id){
+    let row = id.parentNode.parentNode.id; //Pegando o id do avô do botão
+    row = document.getElementById(row); //Recebendo o elemento da linha pelo ID
+
+    Swal.fire({
+        title: 'Deseja excluir?',
+        text: "Nome: "+row.cell2,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Excluir',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            removeToTable(id);
+          Swal.fire(
+            'Excluído!',
+            'Excluído com sucesso!',
+            'success'
+          )
+        }
+      })
     return false;
 }
